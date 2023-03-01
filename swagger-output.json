@@ -1,0 +1,305 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API Pokémon",
+    "description": "API de manipulação de Pokemon"
+  },
+  "host": "localhost:9090",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "Access"
+    },
+    {
+      "name": "Pokemon Methods"
+    },
+    {
+      "name": "User Methods"
+    }
+  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "token": {
+        "type": "oauth2",
+        "name": "token",
+        "in": "header"
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Access"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "UserDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/pokemon": {
+      "post": {
+        "tags": [
+          "Pokemon Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "Bearer {TOKEN}"
+          },
+          {
+            "in": "body",
+            "name": "PokemonDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pokemon"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "get": {
+        "tags": [
+          "Pokemon Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "Bearer {TOKEN}"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/pokemon/{id}": {
+      "get": {
+        "tags": [
+          "Pokemon Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "Bearer {TOKEN}"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Pokemon Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "Bearer {TOKEN}"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "PokemonDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pokemon"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Pokemon Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "default": "Bearer {TOKEN}"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "UserDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "get": {
+        "tags": [
+          "User Methods"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "User Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "User Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "UserDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "User Methods"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "definitions": {
+    "Pokemon": {
+      "type": "object",
+      "required": [
+        "name",
+        "dexNumber",
+        "mainTypeId"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dexNumber": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 1080
+        },
+        "mainTypeId": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 18
+        },
+        "secondTypeId": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 18
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": [
+        "name",
+        "password"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
