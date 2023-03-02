@@ -1,8 +1,8 @@
-import { Sequelize }         from 'sequelize';
-import { mysqlConfig }       from '../config/mysql.config.js';
+import { Sequelize } from 'sequelize';
+import { sequelize } from '../config/mysql.config.js';
 import { pokemonTypeSchema } from './pokemon-type.model.js';
 
-export const pokemonSchema = mysqlConfig.define('tab_pokemon', {
+export const pokemonSchema = sequelize.define('tab_pokemon', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

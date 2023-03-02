@@ -3,5 +3,5 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install --silent
 COPY . .
-EXPOSE 8080
+EXPOSE 9090
 CMD ["node", "src/loader.js"]

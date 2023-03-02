@@ -5,32 +5,71 @@ services:
     hostname: mysql
     container_name: mysql
     ports:
-      - 4879:3306
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: admin123
     volumes:
-      - C:\log:/var/lib/mysql
+      - D:\docker-volumes\mysql:/var/lib/mysql
     networks:
-      - node-net
+      - nodenet
 
   back-end:
     image: gustavomoraesfonseca/node:latest
+    build: .
     container_name: node
     ports:
-      - 8080:8080
+      - 9090:9090
     environment:
       MYSQL_IP: mysql
-      MYSQL_PORT: 4879
+      MYSQL_PORT: 3306
       MYSQL_USER: root
       MYSQL_PASSWORD: admin123
+      MONGO_IP: mongodb
+      MONGO_PORT: 27017
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: admin
+      RABBIT_PASSWORD: admin123
     links:
       - mysql
+      - mongodb
+      - rabbitmq
     depends_on:
       - mysql
+      - mongodb
+      - rabbitmq
     restart: unless-stopped
     networks:
-      - node-net
+      - nodenet
+
+  mongodb:
+    image: mongo:latest
+    hostname: mongodb
+    container_name: mongodb
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    networks:
+      - nodenet
+
+  rabbitmq:
+    image: rabbitmq:3.10-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - D:\Estudo\rabbitMQ\volumes:/var/lib/rabbitmq/
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin123
+    networks:
+      - nodenet
 
 networks:
-  node-net:
+  nodenet:
     driver: bridge
